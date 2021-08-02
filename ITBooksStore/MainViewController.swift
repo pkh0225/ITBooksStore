@@ -15,21 +15,10 @@ import UIKit
 class MainViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
-    lazy var indicatorBackView: UIView = {
-        let v = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        self.view.addSubview(v)
-        v.centerInSuperView()
-        v.autoresizingMask = []
-        v.backgroundColor = UIColor(hex: 0x000000, alpha: 0.7)
-        v.cornerRadius = 10
-        return v
-    }()
 
-    lazy var indicatorView: UIActivityIndicatorView = {
-        let i = UIActivityIndicatorView(style: .whiteLarge)
-        indicatorBackView.addSubview(i)
-        i.centerInSuperView()
-        i.autoresizingMask = []
+    lazy var indicatorView: IndicatorView = {
+        let i = IndicatorView(superView: self.view)
+        i.bringSubviewToFront(self.view)
         return i
     }()
 
@@ -37,6 +26,7 @@ class MainViewController: UIViewController {
     var pageIndex: Int = 0
     var dataList = [ITBookListItemData]()
     var urlTask: URLSessionDataTask?
+    var showDetailPageIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,22 +69,10 @@ class MainViewController: UIViewController {
     }
 
 
-
-    func startIndicatorView() {
-        indicatorBackView.isHidden = false
-        indicatorView.startAnimating()
-    }
-
-    func stopIndicatorView() {
-        indicatorBackView.isHidden = true
-        indicatorView.stopAnimating()
-    }
-
-
     func requestSearchData(_ query: String) {
         pageIndex += 1
         if pageIndex == 1 {
-            startIndicatorView()
+            indicatorView.startIndicatorView()
         }
 
         urlTask = ITBookListData.requestSearchData(query: query, pageIndex: pageIndex) { requestData in
@@ -103,7 +81,7 @@ class MainViewController: UIViewController {
                     self.collectionView.isHidden = true
                 }
                 self.collectionView.adapterHasNext = false
-                self.stopIndicatorView()
+                self.indicatorView.stopIndicatorView()
                 return
             }
 
@@ -120,7 +98,7 @@ class MainViewController: UIViewController {
                 }
                 self.setImageDataList(requestData)
                 self.setCollectionViewData(adapterData)
-                self.stopIndicatorView()
+                self.indicatorView.stopIndicatorView()
             }
         }
     }
@@ -134,8 +112,8 @@ class MainViewController: UIViewController {
                                                                     cellType: MainImageCell.self) { [weak self]  ( name, data) in
                     guard let self = self else { return }
 
-                    if name == MainImageCell.CLICK_KEY, let data = data as? ITBookListItemData {
-                        self.showDetail(data)
+                    if name == MainImageCell.CLICK_KEY,let data = data as? (UIImage, Int) {
+                        self.showDetail(image: data.0, index: data.1)
                     }
 
                 }
@@ -154,9 +132,9 @@ class MainViewController: UIViewController {
         }
         else {
             self.dataList.append(contentsOf: data.books)
-//            if let vc = self.navigationController?.viewControllers.last as? ImageDetailViewController {
-//                vc.addData(data.books)
-//            }
+            if let vc = self.navigationController?.viewControllers.last as? DetailViewController {
+                vc.addData(data.books)
+            }
         }
     }
 
@@ -180,14 +158,14 @@ class MainViewController: UIViewController {
         self.collectionView.isHidden = false
     }
 
-    func showDetail(_ data: ITBookListItemData) {
+    func showDetail(image: UIImage, index: Int) {
         searchBar.resignFirstResponder()
-//        self.showDetailPageIndex = data.index
-//        let vc = ImageDetailViewController.pushViewController()
-//        vc.delegate = self
-//        vc.imageDataList = self.imageDataList
-//        vc.nowIndex = data.index
-//        vc.defaultImage = data.image
+        self.showDetailPageIndex = index
+        let vc = DetailViewController.pushViewController()
+        vc.delegate = self
+        vc.dataList = self.dataList
+        vc.nowIndex = index
+        vc.defaultImage = image
     }
 }
 
@@ -205,5 +183,53 @@ extension MainViewController: UISearchBarDelegate {
         guard let query = searchBar.text, query.isValid else { return }
         setup()
         requestSearchData(query)
+    }
+}
+
+extension MainViewController: DetailViewControllerDelegate {
+    func didChange(index: Int) {
+        self.showDetailPageIndex = index
+
+        self.collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredVertically, animated: false)
+        self.collectionView.layoutIfNeeded()
+
+        if index > self.dataList.count - 10 {
+            if let query = self.searchBar.text {
+                self.requestSearchData(query)
+            }
+        }
+    }
+
+    func getStartRect() -> CGRect {
+        if let cell = self.collectionView.cellForItem(at: IndexPath(row: self.showDetailPageIndex, section: 0)) as? MainImageCell {
+//                    cell.imageView.isHidden = true
+            return cell.getImageWindowsRect()
+        }
+        return .zero
+    }
+
+    func willPushStartAnimation() {
+        cellHidden(isHidden: true, index: self.showDetailPageIndex)
+    }
+
+    func didPushEndAnimation() {
+        cellHidden(isHidden: false, index: self.showDetailPageIndex)
+    }
+
+    func willPopStartAnimation() {
+        cellHidden(isHidden: true, index: self.showDetailPageIndex)
+    }
+
+    func didPopEndAnimation() {
+        cellHidden(isHidden: false, index: self.showDetailPageIndex)
+    }
+    func panPopCanelAnimation() {
+        cellHidden(isHidden: false, index: self.showDetailPageIndex)
+    }
+
+    func cellHidden(isHidden: Bool, index: Int) {
+        if let cell = self.collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? MainImageCell {
+            cell.imageView.isHidden = isHidden
+        }
     }
 }

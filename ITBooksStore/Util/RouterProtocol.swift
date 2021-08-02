@@ -53,7 +53,7 @@ extension RouterProtocol where Self: UIViewController {
     @discardableResult
     static func pushViewController(animated: Bool = true) -> Self {
         print(" ✈️ pushViewController : \(self.className)")
-        let vc = getViewController(cache: false)
+        let vc = getViewController()
         NavigationManager.shared.mainNavigation?.pushViewController(vc, animated: animated)
         return vc
     }

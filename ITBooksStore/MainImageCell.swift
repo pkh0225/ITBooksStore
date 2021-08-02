@@ -49,6 +49,6 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     }
 
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {
-        actionClosure?(Self.CLICK_KEY, data)
+        actionClosure?(Self.CLICK_KEY, (imageView.image, indexPath.row))
     }
 }

@@ -10,6 +10,10 @@
 		521A350B26B50CE600286F1D /* MainImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A350926B50CE600286F1D /* MainImageCell.swift */; };
 		521A350C26B50CE600286F1D /* MainImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 521A350A26B50CE600286F1D /* MainImageCell.xib */; };
 		521A351126B7688A00286F1D /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A351026B7688A00286F1D /* UIButtonExtension.swift */; };
+		5287114226B79E6900B13F6F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5287114126B79E6900B13F6F /* DetailViewController.swift */; };
+		5287114526B79F6F00B13F6F /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5287114326B79F6F00B13F6F /* DetailCell.swift */; };
+		5287114626B79F6F00B13F6F /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5287114426B79F6F00B13F6F /* DetailCell.xib */; };
+		5299E5B426B7ABA100626E7C /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5299E5B326B7ABA100626E7C /* IndicatorView.swift */; };
 		52E57B0426B4FCCE00D7BDC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B0326B4FCCE00D7BDC9 /* AppDelegate.swift */; };
 		52E57B0626B4FCCE00D7BDC9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B0526B4FCCE00D7BDC9 /* SceneDelegate.swift */; };
 		52E57B0826B4FCCE00D7BDC9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B0726B4FCCE00D7BDC9 /* MainViewController.swift */; };
@@ -39,6 +43,10 @@
 		521A350926B50CE600286F1D /* MainImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainImageCell.swift; sourceTree = "<group>"; };
 		521A350A26B50CE600286F1D /* MainImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainImageCell.xib; sourceTree = "<group>"; };
 		521A351026B7688A00286F1D /* UIButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		5287114126B79E6900B13F6F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		5287114326B79F6F00B13F6F /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		5287114426B79F6F00B13F6F /* DetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCell.xib; sourceTree = "<group>"; };
+		5299E5B326B7ABA100626E7C /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 		52E57B0026B4FCCE00D7BDC9 /* ITBooksStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ITBooksStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E57B0326B4FCCE00D7BDC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52E57B0526B4FCCE00D7BDC9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +111,9 @@
 				52E57B0726B4FCCE00D7BDC9 /* MainViewController.swift */,
 				521A350926B50CE600286F1D /* MainImageCell.swift */,
 				521A350A26B50CE600286F1D /* MainImageCell.xib */,
+				5287114126B79E6900B13F6F /* DetailViewController.swift */,
+				5287114326B79F6F00B13F6F /* DetailCell.swift */,
+				5287114426B79F6F00B13F6F /* DetailCell.xib */,
 				52E57B0926B4FCCE00D7BDC9 /* Main.storyboard */,
 				52E57B0C26B4FCCF00D7BDC9 /* Assets.xcassets */,
 				52E57B0E26B4FCCF00D7BDC9 /* LaunchScreen.storyboard */,
@@ -125,9 +136,10 @@
 				52E57B1B26B4FD6A00D7BDC9 /* Extension */,
 				52E57B2526B4FD6A00D7BDC9 /* Parser */,
 				52E57B2726B4FD6A00D7BDC9 /* CollectionViewAdapter */,
-				52E57B2A26B4FD6A00D7BDC9 /* CommonFunction.swift */,
 				52E57B2B26B4FD6A00D7BDC9 /* NavigationUtil */,
+				52E57B2A26B4FD6A00D7BDC9 /* CommonFunction.swift */,
 				52E57B3026B4FD6A00D7BDC9 /* RouterProtocol.swift */,
+				5299E5B326B7ABA100626E7C /* IndicatorView.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -234,6 +246,7 @@
 			files = (
 				52E57B1026B4FCCF00D7BDC9 /* LaunchScreen.storyboard in Resources */,
 				52E57B0D26B4FCCF00D7BDC9 /* Assets.xcassets in Resources */,
+				5287114626B79F6F00B13F6F /* DetailCell.xib in Resources */,
 				521A350C26B50CE600286F1D /* MainImageCell.xib in Resources */,
 				52E57B0B26B4FCCE00D7BDC9 /* Main.storyboard in Resources */,
 			);
@@ -248,7 +261,9 @@
 			files = (
 				521A350B26B50CE600286F1D /* MainImageCell.swift in Sources */,
 				52E57B3726B4FD6A00D7BDC9 /* UIViewExtensions.swift in Sources */,
+				5287114226B79E6900B13F6F /* DetailViewController.swift in Sources */,
 				52E57B4126B4FD6A00D7BDC9 /* NavigationManager.swift in Sources */,
+				5299E5B426B7ABA100626E7C /* IndicatorView.swift in Sources */,
 				52E57B3326B4FD6A00D7BDC9 /* UIColorExtension.swift in Sources */,
 				52E57B3D26B4FD6A00D7BDC9 /* CommonFunction.swift in Sources */,
 				52E57B4026B4FD6A00D7BDC9 /* PushAnimator.swift in Sources */,
@@ -259,6 +274,7 @@
 				52E57B3226B4FD6A00D7BDC9 /* UIImageViewExtension.swift in Sources */,
 				52E57B4226B4FD6A00D7BDC9 /* RouterProtocol.swift in Sources */,
 				52E57B1926B4FD4A00D7BDC9 /* Request.swift in Sources */,
+				5287114526B79F6F00B13F6F /* DetailCell.swift in Sources */,
 				52E57B0426B4FCCE00D7BDC9 /* AppDelegate.swift in Sources */,
 				52E57B3E26B4FD6A00D7BDC9 /* PopAnimator.swift in Sources */,
 				52E57B3B26B4FD6A00D7BDC9 /* UICollectionViewAdapter.swift in Sources */,

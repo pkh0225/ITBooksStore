@@ -50,3 +50,4 @@ func alert(title: String,
     //        self.present(alert, animated: true, completion: completion)
     UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
 }
+

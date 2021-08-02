@@ -6,29 +6,37 @@
 //
 
 import Foundation
-
-
-
+import UIKit
 
 struct Request {
+    private static var URLCache: NSCache<NSString, AnyObject>?
+
+
     @discardableResult
     static func request(url: String, query: String = "", pageIndex: Int = -1, completion: @escaping ([String:Any]?, Error?) -> Void) -> URLSessionDataTask? {
         guard url.isValid else { return  nil }
-        var url = url
+        var urlString = url
         if query.isValid {
-            url += "/\(query)"
+            urlString += "/\(query)"
         }
         if pageIndex > -1 {
-            url += "/\(pageIndex)"
+            urlString += "/\(pageIndex)"
         }
 
-        let urlComponent = URLComponents(string: url)
+        if let data = Self.URLCache?.object(forKey: urlString as NSString) as? [String: Any] {
+            print("cache url: \(urlString)")
+            completion(data, nil)
+            return nil
+        }
 
+        let urlComponent = URLComponents(string: urlString)
         guard let url = urlComponent?.url else {
             assertionFailure("URL Failure")
             return nil
         }
-        print(url)
+        print("request \(url)")
+
+
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
@@ -41,16 +49,23 @@ struct Request {
             }
 
             if let json = try? JSONSerialization.jsonObject(with: data) {
+                var dic = [String: Any]()
                 if let jsonArray = json as? [[String: Any]] {
 //                    print("json is array", jsonArray)
-                    let jsonDictionary = ["dataList": jsonArray]
-                    completion(jsonDictionary, error)
-
+                    dic = ["dataList": jsonArray]
                 }
                 else if let jsonDictionary  = json as? [String: Any] {
 //                    print("json is jsonDictionary ", jsonDictionary)
-                    completion(jsonDictionary, error)
+                    dic = jsonDictionary
                 }
+
+                if Self.URLCache == nil {
+                    Self.URLCache = NSCache<NSString, AnyObject>()
+                    Self.URLCache?.countLimit = 100
+                }
+                Self.URLCache?.setObject(dic as AnyObject, forKey: urlString as NSString)
+                completion(dic, error)
+
             }
 
         }
@@ -84,9 +99,12 @@ class ITBookListItemData: PKHParser {
     var price: String = ""
     var image: String = ""
     var url: String = ""
+
+    /// UIData
+    var tempImage: UIImage?
 }
 
-class  ITBookDetailData: PKHParser {
+class ITBookDetailData: PKHParser {
     static let API_BOOK_DETAIL_URL: String = "https://api.itbook.store/1.0/books"
 
     var error: String = ""
@@ -105,8 +123,8 @@ class  ITBookDetailData: PKHParser {
     var image: String = ""
     var url: String = ""
 
-    static func requestSearchData(pageIndex: Int, completion: @escaping (Self) -> Void) {
-        Request.request(url: Self.API_BOOK_DETAIL_URL) { requestData, error in
+    static func request(isbn13: String, completion: @escaping (Self) -> Void) -> URLSessionDataTask? {
+        return Request.request(url: "\(Self.API_BOOK_DETAIL_URL)/\(isbn13)") { requestData, error in
             guard let requestData = requestData else { return }
             Self.initAsync(map: requestData, completionHandler: { (obj: Self) in
                 completion(obj)
