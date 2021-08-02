@@ -15,6 +15,9 @@ let UISCREEN_HEIGHT = UIScreen.main.bounds.height
 typealias ActionClosure = (_ name: String, _ object: Any?) -> Void
 
 fileprivate class EmptyCollectionCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
+    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
+    }
+
     static var itemCount: Int = 1
 
     var actionClosure: ActionClosure?
@@ -27,10 +30,6 @@ fileprivate class EmptyCollectionCell: UICollectionViewCell, UICollectionViewAda
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-    
-    func configure(_ data: Any?) {
-           
     }
     
     class func getSize(_ data: Any? = nil, width: CGFloat) -> CGSize {
@@ -49,13 +48,15 @@ class UICollectionViewAdapterData {
         
         var kind: CellKind = .cell
         var contentObj: Any?
+        var subData: Any?
         var type: UICollectionViewAdapterCellProtocol.Type
         var sizeClosure: (() -> CGSize)?
         var actionClosure: ActionClosure?
         
-        init(kind: CellKind = .cell, contentObj: Any?, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewAdapterCellProtocol.Type, actionClosure: ActionClosure? = nil) {
+        init(kind: CellKind = .cell, contentObj: Any?, subData:Any? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewAdapterCellProtocol.Type, actionClosure: ActionClosure? = nil) {
             self.kind = kind
             self.contentObj = contentObj
+            self.subData = subData
             self.sizeClosure = sizeClosure
             self.type = cellType
             self.actionClosure = actionClosure
@@ -85,11 +86,8 @@ class UICollectionViewAdapterData {
             let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: emptyHeight,  cellType: EmptyCollectionCell.self)
             self.cells.append(cellInfo)
         }
-        
-        
     }
 
-    
     var sectionList = [SectionInfo]()
     
     
@@ -123,17 +121,17 @@ protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     static var itemCount: Int { get }
     var actionClosure: ActionClosure? { get set }
     
-    static func getSize(_ data: Any?, width: CGFloat) -> CGSize
-    func configure(_ data: Any?)
-    func didEndDisplaying()
+    static func getSize(_ data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
+    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
+    func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath)
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath)
 }
 extension UICollectionViewAdapterCellProtocol {
-    static func getSize(_ data: Any? = nil, width: CGFloat) -> CGSize {
+    static func getSize(_ data: Any? = nil, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return self.fromXibSize()
     }
-    func willDisplay(){}
-    func didEndDisplaying(){}
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath){}
+    func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath){}
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath){}
 }
 
@@ -142,7 +140,7 @@ typealias CollectionViewDisplayClosure = (_ collectionView: UICollectionView,_ c
 typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionView: UICollectionView, _ view: UICollectionReusableView, _ elementKind: String, _ indexPath: IndexPath) -> Void
 
 class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    static let CHECK_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 2
+    static let CHECK_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 3
     weak var cView: UICollectionView? {
         didSet {
             cView?.delegate = self
@@ -225,7 +223,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(cellType, for: indexPath)
         if let cell = cell as? UICollectionViewAdapterCellProtocol {
             cell.actionClosure = cellInfo.actionClosure
-            cell.configure(cellInfo.contentObj)
+            cell.configure(cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
         }
         return cell
     }
@@ -238,7 +236,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         let view = (kind == UICollectionView.elementKindSectionHeader) ? collectionView.dequeueReusableHeader(cellInfo.type, for: indexPath) : collectionView.dequeueReusableFooter(cellInfo.type, for: indexPath)
         if let view = view as? UICollectionViewAdapterCellProtocol {
             view.actionClosure = cellInfo.actionClosure
-            view.configure(cellInfo.contentObj)
+            view.configure(cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
         }
         return view
     }
@@ -257,7 +255,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
             let allCellWidth = collectionView.frame.size.width - sectionInset.left - sectionInset.right - (itemSpace * (CGFloat(cellInfo.type.itemCount) - 1) )
             width = floorUI( allCellWidth / CGFloat(cellInfo.type.itemCount) )
         }
-        return cellInfo.type.getSize(cellInfo.contentObj, width: width)
+        return cellInfo.type.getSize(cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -266,7 +264,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
-        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width)
+        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(item: 0, section: section))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
@@ -275,7 +273,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
-        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width)
+        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(item: 0, section: section))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -356,12 +354,12 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     }
     
     func willDisPlayView(view: UICollectionReusableView, at indexPath: IndexPath) {
-        guard  let viewType = view as? UICollectionViewAdapterCellProtocol else {  return }
-        viewType.willDisplay()
+        guard let cView = cView, let viewType = view as? UICollectionViewAdapterCellProtocol else {  return }
+        viewType.willDisplay(collectionView: cView, indexPath: indexPath)
     }
     func didEndDisplayingView(view: UICollectionReusableView, at indexPath: IndexPath) {
-        guard let viewType = view as? UICollectionViewAdapterCellProtocol else { return }
-        viewType.didEndDisplaying()
+        guard let cView = cView, let viewType = view as? UICollectionViewAdapterCellProtocol else {  return }
+        viewType.didEndDisplaying(collectionView: cView, indexPath: indexPath)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

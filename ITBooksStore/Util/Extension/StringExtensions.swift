@@ -136,5 +136,6 @@ extension String {
         let boundingBox: CGRect = self.boundingRect(with: constraintSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: font], context: nil)
         return CGSize(width: ceilUI(boundingBox.width), height: ceilUI(boundingBox.height))
     }
+
 }
 

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521A350B26B50CE600286F1D /* MainImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A350926B50CE600286F1D /* MainImageCell.swift */; };
+		521A350C26B50CE600286F1D /* MainImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 521A350A26B50CE600286F1D /* MainImageCell.xib */; };
+		521A351126B7688A00286F1D /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A351026B7688A00286F1D /* UIButtonExtension.swift */; };
 		52E57B0426B4FCCE00D7BDC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B0326B4FCCE00D7BDC9 /* AppDelegate.swift */; };
 		52E57B0626B4FCCE00D7BDC9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B0526B4FCCE00D7BDC9 /* SceneDelegate.swift */; };
 		52E57B0826B4FCCE00D7BDC9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B0726B4FCCE00D7BDC9 /* MainViewController.swift */; };
@@ -18,7 +21,6 @@
 		52E57B3326B4FD6A00D7BDC9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B1E26B4FD6A00D7BDC9 /* UIColorExtension.swift */; };
 		52E57B3426B4FD6A00D7BDC9 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B1F26B4FD6A00D7BDC9 /* ArrayExtension.swift */; };
 		52E57B3526B4FD6A00D7BDC9 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B2026B4FD6A00D7BDC9 /* StringExtensions.swift */; };
-		52E57B3626B4FD6A00D7BDC9 /* UIViewControllerExtnsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B2126B4FD6A00D7BDC9 /* UIViewControllerExtnsion.swift */; };
 		52E57B3726B4FD6A00D7BDC9 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B2226B4FD6A00D7BDC9 /* UIViewExtensions.swift */; };
 		52E57B3826B4FD6A00D7BDC9 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B2326B4FD6A00D7BDC9 /* CGRectExtension.swift */; };
 		52E57B3926B4FD6A00D7BDC9 /* NSObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E57B2426B4FD6A00D7BDC9 /* NSObjectExtensions.swift */; };
@@ -34,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		521A350926B50CE600286F1D /* MainImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainImageCell.swift; sourceTree = "<group>"; };
+		521A350A26B50CE600286F1D /* MainImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainImageCell.xib; sourceTree = "<group>"; };
+		521A351026B7688A00286F1D /* UIButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		52E57B0026B4FCCE00D7BDC9 /* ITBooksStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ITBooksStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E57B0326B4FCCE00D7BDC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52E57B0526B4FCCE00D7BDC9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,7 +52,6 @@
 		52E57B1E26B4FD6A00D7BDC9 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		52E57B1F26B4FD6A00D7BDC9 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		52E57B2026B4FD6A00D7BDC9 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
-		52E57B2126B4FD6A00D7BDC9 /* UIViewControllerExtnsion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtnsion.swift; sourceTree = "<group>"; };
 		52E57B2226B4FD6A00D7BDC9 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		52E57B2326B4FD6A00D7BDC9 /* CGRectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		52E57B2426B4FD6A00D7BDC9 /* NSObjectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObjectExtensions.swift; sourceTree = "<group>"; };
@@ -97,6 +101,8 @@
 				52E57B0326B4FCCE00D7BDC9 /* AppDelegate.swift */,
 				52E57B0526B4FCCE00D7BDC9 /* SceneDelegate.swift */,
 				52E57B0726B4FCCE00D7BDC9 /* MainViewController.swift */,
+				521A350926B50CE600286F1D /* MainImageCell.swift */,
+				521A350A26B50CE600286F1D /* MainImageCell.xib */,
 				52E57B0926B4FCCE00D7BDC9 /* Main.storyboard */,
 				52E57B0C26B4FCCF00D7BDC9 /* Assets.xcassets */,
 				52E57B0E26B4FCCF00D7BDC9 /* LaunchScreen.storyboard */,
@@ -129,11 +135,11 @@
 		52E57B1B26B4FD6A00D7BDC9 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				521A351026B7688A00286F1D /* UIButtonExtension.swift */,
 				52E57B1D26B4FD6A00D7BDC9 /* UIImageViewExtension.swift */,
 				52E57B1E26B4FD6A00D7BDC9 /* UIColorExtension.swift */,
 				52E57B1F26B4FD6A00D7BDC9 /* ArrayExtension.swift */,
 				52E57B2026B4FD6A00D7BDC9 /* StringExtensions.swift */,
-				52E57B2126B4FD6A00D7BDC9 /* UIViewControllerExtnsion.swift */,
 				52E57B2226B4FD6A00D7BDC9 /* UIViewExtensions.swift */,
 				52E57B2326B4FD6A00D7BDC9 /* CGRectExtension.swift */,
 				52E57B2426B4FD6A00D7BDC9 /* NSObjectExtensions.swift */,
@@ -228,6 +234,7 @@
 			files = (
 				52E57B1026B4FCCF00D7BDC9 /* LaunchScreen.storyboard in Resources */,
 				52E57B0D26B4FCCF00D7BDC9 /* Assets.xcassets in Resources */,
+				521A350C26B50CE600286F1D /* MainImageCell.xib in Resources */,
 				52E57B0B26B4FCCE00D7BDC9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,12 +246,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521A350B26B50CE600286F1D /* MainImageCell.swift in Sources */,
 				52E57B3726B4FD6A00D7BDC9 /* UIViewExtensions.swift in Sources */,
 				52E57B4126B4FD6A00D7BDC9 /* NavigationManager.swift in Sources */,
 				52E57B3326B4FD6A00D7BDC9 /* UIColorExtension.swift in Sources */,
 				52E57B3D26B4FD6A00D7BDC9 /* CommonFunction.swift in Sources */,
 				52E57B4026B4FD6A00D7BDC9 /* PushAnimator.swift in Sources */,
 				52E57B0826B4FCCE00D7BDC9 /* MainViewController.swift in Sources */,
+				521A351126B7688A00286F1D /* UIButtonExtension.swift in Sources */,
 				52E57B3526B4FD6A00D7BDC9 /* StringExtensions.swift in Sources */,
 				52E57B3426B4FD6A00D7BDC9 /* ArrayExtension.swift in Sources */,
 				52E57B3226B4FD6A00D7BDC9 /* UIImageViewExtension.swift in Sources */,
@@ -257,7 +266,6 @@
 				52E57B3826B4FD6A00D7BDC9 /* CGRectExtension.swift in Sources */,
 				52E57B3F26B4FD6A00D7BDC9 /* SnapShotView.swift in Sources */,
 				52E57B3C26B4FD6A00D7BDC9 /* UICollectionViewExtension.swift in Sources */,
-				52E57B3626B4FD6A00D7BDC9 /* UIViewControllerExtnsion.swift in Sources */,
 				52E57B3A26B4FD6A00D7BDC9 /* PKHParser.swift in Sources */,
 				52E57B0626B4FCCE00D7BDC9 /* SceneDelegate.swift in Sources */,
 			);
@@ -336,7 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -391,7 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -417,7 +425,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.beta.ITBooksStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -437,7 +445,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.beta.ITBooksStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

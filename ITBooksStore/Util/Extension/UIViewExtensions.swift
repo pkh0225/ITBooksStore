@@ -1436,6 +1436,44 @@ extension UIView {
             self.frame = CGRect(origin: self.frame.origin, size: value)
         }
     }
+
+    ///   Centers view in superview horizontally
+    public func centerXInSuperView() {
+        guard let parentView = superview else {
+            assertionFailure("SwiftExtensions Error: The view \(String(describing: type(of: self.parentViewController))) doesn't have a superview")
+            return
+        }
+
+        self.x = (parentView.w / 2.0) - (self.w / 2.0)
+    }
+
+    ///   Centers view in superview vertically
+    public func centerYInSuperView() {
+        guard let parentView = superview else {
+            assertionFailure("SwiftExtensions Error: The view \(String(describing: type(of: self.parentViewController))) doesn't have a superview")
+            return
+        }
+
+        self.y = (parentView.h / 2.0) - (self.h / 2.0)
+    }
+
+    ///   Centers view in superview horizontally & vertically
+    public func centerInSuperView() {
+        self.centerXInSuperView()
+        self.centerYInSuperView()
+    }
+
+    public func addSubviewResizingMask(_ view: UIView, resizingMask: UIView.AutoresizingMask = [.flexibleWidth, .flexibleHeight], frame: CGRect = CGRect.zero) {
+        if frame == CGRect.zero {
+            view.frame = self.bounds
+        }
+        else {
+            view.frame = frame
+        }
+
+        view.autoresizingMask = resizingMask
+        self.addSubview(view)
+    }
 }
 #endif
 

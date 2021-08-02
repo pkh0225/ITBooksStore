@@ -16,9 +16,55 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품이 없습니다. 다른 검색어를 입력해 주세요. (영어검색어만 지원합니다)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euJ-jR-bIu">
+                                <rect key="frame" x="100" y="195" width="214" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <searchBar contentMode="redraw" placeholder="검색어를 입력해주세요." translatesAutoresizingMaskIntoConstraints="NO" id="UMA-qL-AlJ">
+                                <rect key="frame" x="0.0" y="44" width="414" height="51"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="Sc4-Tu-eO0"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="kTP-yQ-5kA"/>
+                                </connections>
+                            </searchBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kRx-4d-mof">
+                                <rect key="frame" x="0.0" y="95" width="414" height="767"/>
+                                <color key="backgroundColor" white="0.91000000000000003" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="IEb-Il-mNe">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="euJ-jR-bIu" firstAttribute="top" secondItem="UMA-qL-AlJ" secondAttribute="bottom" constant="100" id="AfK-GI-XsZ"/>
+                            <constraint firstItem="UMA-qL-AlJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="BSu-GP-JED"/>
+                            <constraint firstItem="kRx-4d-mof" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Hzt-Ic-fH0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="euJ-jR-bIu" secondAttribute="trailing" constant="100" id="Mc7-dJ-zAW"/>
+                            <constraint firstItem="UMA-qL-AlJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="RoK-TA-BOt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="kRx-4d-mof" secondAttribute="bottom" id="SC9-Er-o43"/>
+                            <constraint firstItem="UMA-qL-AlJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SZv-gN-Xoo"/>
+                            <constraint firstItem="euJ-jR-bIu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="UQa-EA-m05"/>
+                            <constraint firstItem="kRx-4d-mof" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="u2J-06-6ty"/>
+                            <constraint firstItem="kRx-4d-mof" firstAttribute="top" secondItem="UMA-qL-AlJ" secondAttribute="bottom" id="yFj-FE-f5K"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="kRx-4d-mof" id="ar4-C4-Gsd"/>
+                        <outlet property="searchBar" destination="UMA-qL-AlJ" id="z7B-GC-rR3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

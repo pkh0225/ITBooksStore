@@ -8,7 +8,28 @@
 import Foundation
 import UIKit
 
+private var CellBackGroundColorIndex: Int = -1
+private let cellBackGroundColorInfo: [UIColor] = [ UIColor(hex: 0xf6f3e6),
+                                                   UIColor(hex: 0xf3eae0),
+                                                   UIColor(hex: 0xe5f3e0),
+                                                   UIColor(hex: 0xe0edf3),
+                                                   UIColor(hex: 0xe0e0f3),
+                                                   UIColor(hex: 0xeae0f3),
+                                                   UIColor(hex: 0xf3e0f2),
+                                                   UIColor(hex: 0xf3e0e4),
+                                                   UIColor(hex: 0xeae0cc),
+                                                   UIColor(hex: 0xd0ede0),
+                                                   UIColor(hex: 0xccd4ea),
+                                                   UIColor(hex: 0xe0e0e0)]
+
 extension UIColor {
+    public convenience init(hex col: UInt32, alpha: CGFloat = 1.0) {
+        let b = UInt8((col & 0xff))
+        let g = UInt8(((col >> 8) & 0xff))
+        let r = UInt8(((col >> 16) & 0xff))
+        self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: alpha)
+    }
+
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
         var alpha = alpha
         var cString: String = hexString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -39,5 +60,13 @@ extension UIColor {
         Scanner(string: cString).scanHexInt32(&rgbValue)
 
         self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0, green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0, blue: CGFloat(rgbValue & 0x0000FF) / 255.0, alpha: alpha)
+    }
+
+    class var imageBackgroundColor: UIColor {
+        CellBackGroundColorIndex += 1
+        if CellBackGroundColorIndex >= cellBackGroundColorInfo.count {
+            CellBackGroundColorIndex = 0
+        }
+        return cellBackGroundColorInfo[CellBackGroundColorIndex]
     }
 }

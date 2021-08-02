@@ -41,15 +41,19 @@ extension UIImageView {
     }
 
     func setUrlImage(_ urlString: String?, placeHolderImage: UIImage? = nil, backgroundColor: UIColor? = nil, transitionAnimation: Bool = true) {
+
+        if let cachedImage = getChachImage(urlString: urlString) {
+            self.image = cachedImage
+            self.backgroundColor = .none
+            return
+        }
+
         imageDataTask?.cancel()
         self.image =  placeHolderImage
         self.backgroundColor = backgroundColor
-
+        
         guard let urlString = urlString, urlString.isValid else { return }
-        if let cachedImage = getChachImage(urlString: urlString) {
-            self.image = cachedImage
-            return
-        }
+
 
         guard let url = URL(string: urlString) else { return }
         self.url = url
@@ -69,10 +73,12 @@ extension UIImageView {
                     if transitionAnimation {
                         UIView.transition(with: self, duration: 0.25, options: [.transitionCrossDissolve], animations: {
                             self.image = image
+                            self.backgroundColor = .none
                         }, completion: nil)
                     }
                     else {
                         self.image = image
+                        self.backgroundColor = .none
                     }
 
                 }
