@@ -61,7 +61,6 @@ class DetailViewController: UIViewController, RouterProtocol {
             self.collectionView.reloadData()
             self.collectionView.layoutIfNeeded()
             self.collectionView.scrollToItem(at: IndexPath(row: self.nowIndex, section: 0), at: .centeredHorizontally, animated: false)
-            self.collectionView.setNeedsDisplay()
         }
 
 
