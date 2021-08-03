@@ -31,6 +31,8 @@ public struct ParserMap {
 let ParserObjectConcurrentQueue = DispatchQueue(label: "ParserObjectConcurrentQueue", qos: .userInitiated, attributes: .concurrent)
 
 @objcMembers open class PKHParser: NSObject {
+    static var isDebuging: Bool = false
+    public var _debugJsonDic = [String: Any]()
 
     public override init() {
         super.init()
@@ -66,10 +68,17 @@ let ParserObjectConcurrentQueue = DispatchQueue(label: "ParserObjectConcurrentQu
 
     }
 
+    open func setDataToDic(dic: [String: Any], anyData: Any?) {
+        self.setSerialize(map: dic, anyData: anyData)
+        self.afterParsed(dic, anyData: anyData)
+    }
     open func getDataMap() -> [ParserMap]? { return nil }
     open func beforeParsed(dic: [String: Any], anyData: Any?) {}
     open func afterParsed(_ dic: [String: Any], anyData: Any?) {}
     open func setSerialize(map dic: [String: Any], anyData: Any?) {
+        if Self.isDebuging {
+            self._debugJsonDic = dic
+        }
 
         let maps = self.getDataMap()
         let ivarList = self.ivarInfoList()

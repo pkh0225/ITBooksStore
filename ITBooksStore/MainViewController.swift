@@ -30,6 +30,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        PKHParser.isDebuging = true
         NavigationManager.shared.mainNavigation = self.navigationController
         setSearchbarAccessoryView()
         setup()

@@ -19,6 +19,10 @@ protocol DetailViewControllerDelegate: AnyObject {
     func panPopCanelAnimation()
 }
 
+/*
+    아래로 당기면 아이폰 앨범에서 뒤기로가 애니메이션이 실행됩니다.
+    좌우로 Page 기능이 있습니다.(다음 책 정보가 나옵니다.)
+ */
 class DetailViewController: UIViewController, RouterProtocol {
     static var storyboardName: String = "Main"
 
@@ -151,10 +155,10 @@ extension DetailViewController: NavigationAnimatorAble {
     func getImageSize() -> CGRect {
         var topSafeArea: CGFloat
         if #available(iOS 11.0, *) {
-                topSafeArea = view.safeAreaInsets.top
-            } else {
-                topSafeArea = topLayoutGuide.length
-            }
+            topSafeArea = view.safeAreaInsets.top
+        } else {
+            topSafeArea = topLayoutGuide.length
+        }
 
 
         let cell = DetailCell.fromXib(cache: true)

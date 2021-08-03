@@ -7,6 +7,9 @@
 
 import UIKit
 
+/*
+    1. Cell 에서 롱터시시 디버깅모드가 실행됩니다.(JSON Data를 볼수 있고 검색 및 수정 후 저장 기능이 지원합니다.)
+ */
 class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     static let CLICK_KEY: String = "CLICK_KEY"
     static var itemCount: Int  = 2
@@ -32,6 +35,25 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        if PKHParser.isDebuging {
+            self.addLongPressGesture { [weak self] recognizer in
+                guard let self = self else { return }
+                guard let debugData = self.data else { return }
+                if recognizer.state == .began {
+                    //                    print(" ** DebugData LogPreeGesture **")
+                    let vc = DebugDataViewController.pushViewController()
+                    vc.debugDatas = [debugData]
+                    vc.editCallBack = { [weak self] (_, dic) in
+                        guard let self = self else { return }
+                        guard let dic = dic else { return }
+                        guard let debugData = self.data else { return }
+
+                        debugData.setDataToDic(dic: dic, anyData: debugData)
+                        self.getCollectionView()?.reloadData()
+                    }
+                }
+            }
+        }
     }
 
     func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
@@ -50,5 +72,16 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
 
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {
         actionClosure?(Self.CLICK_KEY, (imageView.image, indexPath.row))
+    }
+
+    func getCollectionView() -> UICollectionView? {
+        var responder: UIResponder? = self
+        while responder != nil {
+            responder = responder?.next
+            if responder is UICollectionView {
+                break
+            }
+        }
+        return responder as? UICollectionView
     }
 }

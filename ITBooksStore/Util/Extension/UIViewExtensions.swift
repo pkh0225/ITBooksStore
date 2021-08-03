@@ -1475,6 +1475,87 @@ extension UIView {
         self.addSubview(view)
     }
 }
+
+// MARK:- Gesture Extensions
+private var TapGesture_Key: UInt8 = 0
+private var SwipeGesture_Key: UInt8 = 0
+private var PanGesture_Key: UInt8 = 0
+private var PinchGesture_Key: UInt8 = 0
+private var LongPressGesture_Key: UInt8 = 0
+
+private class ClosureSleeve {
+    let closure: (_ recognizer: UIGestureRecognizer) -> Void
+
+    init (_ closure: @escaping (_ recognizer: UIGestureRecognizer) -> Void) {
+        self.closure = closure
+    }
+
+    @objc func invoke (recognizer: UIGestureRecognizer) {
+        closure(recognizer)
+    }
+}
+
+extension UIView {
+    @discardableResult
+    public func addTapGesture(tapNumber: Int = 1, _ closure: @escaping (_ recognizer: UIGestureRecognizer) -> Void) -> UITapGestureRecognizer {
+        let sleeve = ClosureSleeve(closure)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: sleeve, action: #selector(ClosureSleeve.invoke))
+        tap.numberOfTapsRequired = tapNumber
+        addGestureRecognizer(tap)
+        isUserInteractionEnabled = true
+        objc_setAssociatedObject(self, &TapGesture_Key, sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return tap
+    }
+
+    @discardableResult
+    public func addSwipeGesture(direction: UISwipeGestureRecognizer.Direction, numberOfTouches: Int = 1, _ closure: @escaping (_ recognizer: UIGestureRecognizer) -> Void) -> UISwipeGestureRecognizer {
+        let sleeve = ClosureSleeve(closure)
+        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: sleeve, action: #selector(ClosureSleeve.invoke))
+        swipe.direction = direction
+
+        #if os(iOS)
+        swipe.numberOfTouchesRequired = numberOfTouches
+        #endif
+
+        addGestureRecognizer(swipe)
+        isUserInteractionEnabled = true
+        objc_setAssociatedObject(self, &SwipeGesture_Key, sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return swipe
+    }
+
+    @discardableResult
+    public func addPanGesture(_ closure: @escaping (_ recognizer: UIGestureRecognizer) -> Void) -> UIPanGestureRecognizer {
+        let sleeve = ClosureSleeve(closure)
+        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: sleeve, action: #selector(ClosureSleeve.invoke))
+        addGestureRecognizer(pan)
+        isUserInteractionEnabled = true
+        objc_setAssociatedObject(self, &PanGesture_Key, sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return pan
+    }
+    #if os(iOS)
+
+    @discardableResult
+    public func addPinchGesture(_ closure: @escaping (_ recognizer: UIGestureRecognizer) -> Void) -> UIPinchGestureRecognizer {
+        let sleeve = ClosureSleeve(closure)
+        let pinch: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: sleeve, action: #selector(ClosureSleeve.invoke))
+        addGestureRecognizer(pinch)
+        isUserInteractionEnabled = true
+        objc_setAssociatedObject(self, &PinchGesture_Key, sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return pinch
+    }
+
+    #endif
+
+    @discardableResult
+    public func addLongPressGesture(_ closure: @escaping (_ recognizer: UIGestureRecognizer) -> Void) -> UILongPressGestureRecognizer {
+        let sleeve = ClosureSleeve(closure)
+        let longPress: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: sleeve, action: #selector(ClosureSleeve.invoke))
+        addGestureRecognizer(longPress)
+        isUserInteractionEnabled = true
+        objc_setAssociatedObject(self, &LongPressGesture_Key, sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return longPress
+    }
+}
 #endif
 
 

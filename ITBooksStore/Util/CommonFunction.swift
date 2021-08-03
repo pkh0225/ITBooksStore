@@ -51,3 +51,18 @@ func alert(title: String,
     UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
 }
 
+// Font
+enum FontName: String {
+    case APPLE_SD_MEDIUM = "AppleSDGothicNeo-Medium"
+    case APPLE_SD_REGULAR = "AppleSDGothicNeo-Regular"
+    case APPLE_SD_BOLD = "AppleSDGothicNeo-Bold"
+    case APPLE_SD_THIN = "AppleSDGothicNeo-Thin"
+    case APPLE_SD_LIGHT = "AppleSDGothicNeo-Light"
+    case APPLE_SD_SEMIBOLD = "AppleSDGothicNeo-SemiBold"
+    case APPLE_SD_ULTRA_LIGHT = "AppleSDGothicNeo-UltraLight"
+
+    func size(_ size: CGFloat) -> UIFont {
+        return UIFont(name: self.rawValue, size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+
+}
