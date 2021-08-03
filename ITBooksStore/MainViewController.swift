@@ -46,7 +46,7 @@ class MainViewController: UIViewController {
     }
 
     func setSearchbarAccessoryView() {
-        let aView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.w, height: 45))
+        let aView = UIView(frame: CGRect(x: 0, y: 0, width: UISCREEN_WIDTH, height: 45))
         aView.backgroundColor = UIColor(hex: 0xf0f0f0)
         aView.borderWidth = 1
         aView.borderColor = .black
@@ -193,7 +193,6 @@ extension MainViewController: DetailViewControllerDelegate {
 
         self.collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredVertically, animated: false)
         self.collectionView.layoutIfNeeded()
-        self.collectionView.setNeedsDisplay()
 
         if index > self.dataList.count - 10 {
             if let query = self.searchBar.text {
@@ -232,6 +231,7 @@ extension MainViewController: DetailViewControllerDelegate {
     func cellHidden(isHidden: Bool, index: Int) {
         if let cell = self.collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? MainImageCell {
             cell.imageView.isHidden = isHidden
+            cell.reload()
         }
     }
 }

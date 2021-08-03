@@ -65,16 +65,24 @@ class DetailViewController: UIViewController, RouterProtocol {
 
 
         collectionView.didScrollCallback { scrollView in
+            scrollView.alwaysBounceVertical = !(scrollView.contentOffset.y == 0)
+
             let x: CGFloat = scrollView.contentOffset.x + (self.collectionView.frame.size.width / 2)
             let horizontalNowPage = Int(x  / self.collectionView.frame.size.width)
             guard self.nowIndex != horizontalNowPage else { return }
             self.nowIndex = horizontalNowPage
             self.delegate?.didChange(index: self.nowIndex)
+
+            if let cell = self.collectionView.visibleCells[safe:0] as? DetailCell {
+                cell.textView.resignFirstResponder()
+            }
         }
 
         panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panGestureRecognizer(_:)))
         panRecognizer?.delegate = self
-        collectionView.addGestureRecognizer(panRecognizer!)
+        self.view.addGestureRecognizer(panRecognizer!)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillChangeFrameNotification(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -242,7 +250,7 @@ extension DetailViewController {
         let velocity: CGPoint = recognizer.velocity(in: recognizer.view)
         let isVerticalGesture: Bool = abs(Float(velocity.y)) > abs(Float(velocity.x))
         if recognizer.state == .began {
-            if scrollView.zoomScale != 1.0 || isVerticalGesture == false || (velocity.y) < 0 {
+            if scrollView.contentOffset.y != 0 || isVerticalGesture == false || (velocity.y) < 0 {
                 return
             }
 //            self.delegate?.didChange(index: self.nowIndex)
@@ -325,4 +333,42 @@ extension DetailViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+}
+
+// MARK: - Notifications
+extension DetailViewController {
+    @objc func keyboardWillChangeFrameNotification(_ notification: Notification) {
+        //    NSLog(@"userInfo = %@", userInfo);
+        guard let userInfo = notification.userInfo else { return }
+        guard let keyboardEndFrameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+
+        let keyboardEndFrame: CGRect = keyboardEndFrameValue.cgRectValue
+        if keyboardEndFrame.isEmpty {
+            return
+        }
+
+        guard let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+        guard let rawAnimationCurveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? Int else { return }
+        guard let animationCurveOption = UIView.AnimationCurve(rawValue: rawAnimationCurveValue) else { return }
+
+
+        var safeArea: CGFloat
+        if #available(iOS 11.0, *) {
+            safeArea = view.safeAreaInsets.bottom
+        } else {
+            safeArea = bottomLayoutGuide.length
+        }
+
+        var height: CGFloat = 0
+        if keyboardEndFrame.origin.y < view.h {
+            height = keyboardEndFrame.size.height
+            height -= safeArea
+        }
+
+        if let cell = collectionView.visibleCells[safe:0] as? DetailCell {
+            cell.setContentInset(height: height, animationDuration: animationDuration, animationCurveOption: animationCurveOption)
+        }
+
+    }
+
 }

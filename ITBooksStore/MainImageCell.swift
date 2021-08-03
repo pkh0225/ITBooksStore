@@ -18,6 +18,7 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var memoLabel: UILabel!
 
     var actionClosure: ActionClosure? = nil
     var data: ITBookListItemData?
@@ -64,6 +65,22 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         priceLabel.text = "\(data.price)"
         imageView.setUrlImage(data.image, backgroundColor: .imageBackgroundColor)
 
+        checkMemo()
+    }
+
+    func reload() {
+        checkMemo()
+    }
+
+
+    func checkMemo() {
+        guard let data = self.data else { return }
+        if UserDefault.memo[data.isbn13]?.isValid ?? false {
+            memoLabel.isHidden = false
+        }
+        else {
+            memoLabel.isHidden = true
+        }
     }
 
     func getImageWindowsRect() -> CGRect {

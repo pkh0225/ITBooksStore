@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="1018"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XWW-oq-5JK">
-                                <rect key="frame" x="0.0" y="0.0" width="300" height="591.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="936.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4qp-Sl-DLf">
                                         <rect key="frame" x="15" y="15" width="270" height="315"/>
@@ -105,14 +105,77 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uLw-7V-9QI">
+                                        <rect key="frame" x="15" y="586.5" width="270" height="300"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="A0y-I0-JPf"/>
+                                        </constraints>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="gTV-IL-0wX" id="E8A-bV-KSa"/>
+                                        </connections>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="메모를 입력하세요." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYv-F9-6Q6">
+                                        <rect key="frame" x="30" y="601.5" width="97.5" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" systemColor="systemGray3Color"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCf-r7-vKm">
+                                        <rect key="frame" x="110" y="891.5" width="175" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="94i-co-uNm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <state key="normal" title="✏️Memo Save">
+                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onSaveButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="DsJ-wo-UKd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iSS-W5-OUc">
+                                        <rect key="frame" x="15" y="891.5" width="90" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="90" id="62w-Pn-2mI"/>
+                                            <constraint firstAttribute="height" constant="30" id="ltm-Cn-MyN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <state key="normal" title="Del">
+                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="ondelButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="sPP-gp-yir"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="6Lm-Am-taT" firstAttribute="top" secondItem="hzx-jp-0mD" secondAttribute="bottom" constant="5" id="0Vd-xz-e69"/>
                                     <constraint firstItem="GHJ-o9-rXZ" firstAttribute="top" secondItem="6Lm-Am-taT" secondAttribute="bottom" constant="5" id="19E-gh-xLb"/>
                                     <constraint firstItem="hzx-jp-0mD" firstAttribute="top" secondItem="4Uw-4b-4Ie" secondAttribute="bottom" constant="5" id="1ed-ww-8qF"/>
+                                    <constraint firstAttribute="trailing" secondItem="wCf-r7-vKm" secondAttribute="trailing" constant="15" id="1lC-cE-EcO"/>
+                                    <constraint firstItem="uLw-7V-9QI" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="1mm-sN-q84"/>
                                     <constraint firstItem="4Uw-4b-4Ie" firstAttribute="top" secondItem="exL-ji-eWX" secondAttribute="bottom" constant="5" id="2lh-4n-LTw"/>
                                     <constraint firstItem="exL-ji-eWX" firstAttribute="top" secondItem="rxo-bs-EtT" secondAttribute="bottom" constant="5" id="3V6-4k-CbQ"/>
+                                    <constraint firstItem="iSS-W5-OUc" firstAttribute="top" secondItem="uLw-7V-9QI" secondAttribute="bottom" constant="5" id="3tO-XJ-vRf"/>
                                     <constraint firstItem="Z8G-fX-2RC" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="3tp-XZ-1JM"/>
                                     <constraint firstItem="GHJ-o9-rXZ" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="6Cr-Gu-Ypq"/>
                                     <constraint firstAttribute="trailing" secondItem="rxo-bs-EtT" secondAttribute="trailing" constant="15" id="6xs-hU-EWM"/>
@@ -120,20 +183,25 @@
                                     <constraint firstItem="R2e-ow-JM6" firstAttribute="top" secondItem="epy-WU-sKn" secondAttribute="bottom" constant="5" id="97i-im-ffT"/>
                                     <constraint firstItem="4Uw-4b-4Ie" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="9aX-Eg-omS"/>
                                     <constraint firstItem="hzx-jp-0mD" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="9rr-Lh-AyC"/>
+                                    <constraint firstItem="uLw-7V-9QI" firstAttribute="top" secondItem="gMR-1a-kth" secondAttribute="bottom" constant="15" id="Aqr-WU-Ays"/>
                                     <constraint firstItem="gMR-1a-kth" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="BL1-3v-sDE"/>
                                     <constraint firstAttribute="trailing" secondItem="GHJ-o9-rXZ" secondAttribute="trailing" constant="15" id="Brq-Oe-vOn"/>
                                     <constraint firstAttribute="trailing" secondItem="gMR-1a-kth" secondAttribute="trailing" constant="15" id="BsQ-J1-gPe"/>
+                                    <constraint firstItem="WYv-F9-6Q6" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="30" id="Bzc-q9-qg5"/>
                                     <constraint firstAttribute="trailing" secondItem="Z8G-fX-2RC" secondAttribute="trailing" constant="15" id="CBA-AJ-zux"/>
                                     <constraint firstItem="Aqb-mM-xzF" firstAttribute="top" secondItem="Z8G-fX-2RC" secondAttribute="bottom" constant="5" id="DpW-Qc-1GS"/>
+                                    <constraint firstItem="WYv-F9-6Q6" firstAttribute="top" secondItem="gMR-1a-kth" secondAttribute="bottom" constant="30" id="E0c-rD-6bg"/>
                                     <constraint firstAttribute="trailing" secondItem="R2e-ow-JM6" secondAttribute="trailing" constant="15" id="E2j-ZQ-7W6"/>
                                     <constraint firstAttribute="trailing" secondItem="4Uw-4b-4Ie" secondAttribute="trailing" constant="15" id="HI4-wx-dae"/>
+                                    <constraint firstItem="iSS-W5-OUc" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="HPJ-1v-Ngk"/>
                                     <constraint firstItem="4qp-Sl-DLf" firstAttribute="top" secondItem="XWW-oq-5JK" secondAttribute="top" constant="15" id="Ip3-il-aOB"/>
                                     <constraint firstItem="gMR-1a-kth" firstAttribute="top" secondItem="GHJ-o9-rXZ" secondAttribute="bottom" constant="5" id="Ja4-fC-uew"/>
                                     <constraint firstItem="Z8G-fX-2RC" firstAttribute="top" secondItem="R2e-ow-JM6" secondAttribute="bottom" constant="5" id="Oc7-8F-hDb"/>
                                     <constraint firstAttribute="trailing" secondItem="6Lm-Am-taT" secondAttribute="trailing" constant="15" id="PqS-Fx-dlU"/>
                                     <constraint firstItem="epy-WU-sKn" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="T0f-4U-7gl"/>
                                     <constraint firstItem="rxo-bs-EtT" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="Zbe-ea-hFQ"/>
-                                    <constraint firstAttribute="bottom" secondItem="gMR-1a-kth" secondAttribute="bottom" constant="20" id="dAh-8F-4PK"/>
+                                    <constraint firstAttribute="bottom" secondItem="wCf-r7-vKm" secondAttribute="bottom" constant="15" id="Zhx-1J-Evc"/>
+                                    <constraint firstItem="wCf-r7-vKm" firstAttribute="top" secondItem="uLw-7V-9QI" secondAttribute="bottom" constant="5" id="cWm-d2-jWy"/>
                                     <constraint firstAttribute="trailing" secondItem="exL-ji-eWX" secondAttribute="trailing" constant="15" id="eL9-6r-Hcb"/>
                                     <constraint firstAttribute="trailing" secondItem="epy-WU-sKn" secondAttribute="trailing" constant="15" id="fbe-DM-E0C"/>
                                     <constraint firstItem="exL-ji-eWX" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="fph-GM-Jdj"/>
@@ -141,6 +209,8 @@
                                     <constraint firstAttribute="trailing" secondItem="Aqb-mM-xzF" secondAttribute="trailing" constant="15" id="jTF-LS-eqP"/>
                                     <constraint firstItem="6Lm-Am-taT" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="k4i-1g-YDd"/>
                                     <constraint firstItem="Aqb-mM-xzF" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="o8R-dF-0qW"/>
+                                    <constraint firstAttribute="trailing" secondItem="uLw-7V-9QI" secondAttribute="trailing" constant="15" id="q4D-9D-dg4"/>
+                                    <constraint firstItem="wCf-r7-vKm" firstAttribute="leading" secondItem="iSS-W5-OUc" secondAttribute="trailing" constant="5" id="qTV-Ji-pE9"/>
                                     <constraint firstItem="rxo-bs-EtT" firstAttribute="top" secondItem="Aqb-mM-xzF" secondAttribute="bottom" constant="5" id="qdF-Fs-Cr7"/>
                                     <constraint firstAttribute="trailing" secondItem="hzx-jp-0mD" secondAttribute="trailing" constant="15" id="rGW-oR-oxD"/>
                                     <constraint firstItem="R2e-ow-JM6" firstAttribute="leading" secondItem="XWW-oq-5JK" secondAttribute="leading" constant="15" id="s9a-0i-JUW"/>
@@ -169,15 +239,19 @@
             <size key="customSize" width="300" height="1018"/>
             <connections>
                 <outlet property="authorsLabel" destination="Z8G-fX-2RC" id="JZY-0M-KEO"/>
+                <outlet property="delButton" destination="iSS-W5-OUc" id="Ert-uf-atE"/>
                 <outlet property="descLabel" destination="gMR-1a-kth" id="d5X-8b-ecv"/>
                 <outlet property="imageView" destination="4qp-Sl-DLf" id="sHl-JC-dic"/>
                 <outlet property="languageLabel" destination="rxo-bs-EtT" id="fW9-xd-5wN"/>
                 <outlet property="pagesLabel" destination="exL-ji-eWX" id="6bN-VK-hI4"/>
+                <outlet property="placeholderLabel" destination="WYv-F9-6Q6" id="QBR-Y5-Rmh"/>
                 <outlet property="priceLabel" destination="6Lm-Am-taT" id="k5u-Nz-mbf"/>
                 <outlet property="publisherLabel" destination="Aqb-mM-xzF" id="PHo-5a-hZS"/>
                 <outlet property="ratingLabel" destination="hzx-jp-0mD" id="wq4-5d-jI5"/>
+                <outlet property="saveButton" destination="wCf-r7-vKm" id="IG1-Jc-KMf"/>
                 <outlet property="scrollView" destination="4wr-QR-dXx" id="gxK-OE-ogF"/>
                 <outlet property="subTitieLabel" destination="R2e-ow-JM6" id="8Ly-Yu-7S3"/>
+                <outlet property="textView" destination="uLw-7V-9QI" id="Gx0-rC-iTi"/>
                 <outlet property="titieLabel" destination="epy-WU-sKn" id="CqD-2w-7c7"/>
                 <outlet property="urlLabel" destination="GHJ-o9-rXZ" id="5cu-9u-6yL"/>
                 <outlet property="yearLabel" destination="4Uw-4b-4Ie" id="C9G-9a-nAQ"/>
@@ -186,6 +260,15 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

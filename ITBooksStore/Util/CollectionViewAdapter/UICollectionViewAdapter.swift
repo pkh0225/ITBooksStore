@@ -123,6 +123,7 @@ protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     
     static func getSize(_ data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
     func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath)
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath)
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath)
 }

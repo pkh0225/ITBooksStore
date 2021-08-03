@@ -74,6 +74,7 @@ struct UserDefaultWrapper<Value> {
 }
 
 
-struct DI_UserDefault {
+struct UserDefault {
     @UserDefaultWrapper(key: "showUnitViewData_FontSize") static var showUnitViewData_FontSize: Int = 20
+    @UserDefaultWrapper(key: "memo") static var memo: [String: String] = [:]
 }

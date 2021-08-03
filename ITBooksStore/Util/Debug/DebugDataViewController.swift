@@ -36,9 +36,9 @@ class DebugDataViewController: UIViewController, RouterProtocol {
     private var dataButtons = [UIButton]()
     @Atomic private var searchItems = [NSRange]()
     private var tempFontSize: CGFloat = 0
-    var initialFontSize: CGFloat = CGFloat(DI_UserDefault.showUnitViewData_FontSize) {
+    var initialFontSize: CGFloat = CGFloat(UserDefault.showUnitViewData_FontSize) {
         didSet {
-            DI_UserDefault.showUnitViewData_FontSize = Int(initialFontSize)
+            UserDefault.showUnitViewData_FontSize = Int(initialFontSize)
         }
     }
     var searchItemIndex: Int = -1 {

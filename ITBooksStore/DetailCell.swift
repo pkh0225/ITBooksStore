@@ -29,6 +29,11 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var placeholderLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var delButton: UIButton!
+
 
     lazy var indicatorView: IndicatorView = {
         let i = IndicatorView(superView: self)
@@ -45,7 +50,9 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        saveButton.setTitleColor(.orange, for: .normal)
+        saveButton.setTitleColor(.systemGray, for: .disabled)
+        self.setSearchbarAccessoryView()
         if PKHParser.isDebuging {
             self.addLongPressGesture { [weak self] recognizer in
                 guard let self = self else { return }
@@ -87,10 +94,35 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         }
     }
 
+    func setSearchbarAccessoryView() {
+        let aView = UIView(frame: CGRect(x: 0, y: 0, width: UISCREEN_WIDTH, height: 45))
+        aView.backgroundColor = UIColor(hex: 0xf0f0f0)
+        aView.borderWidth = 1
+        aView.borderColor = .black
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 35))
+        aView.addSubview(btn)
+        btn.setTitle("닫기", for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        btn.setTitleColor(.black, for: .normal)
+        btn.cornerRadius = 5
+        btn.borderWidth = 1
+        btn.borderColor = .darkGray
+        btn.x = aView.w - btn.w - 10
+        btn.centerYInSuperView()
+        btn.addAction(for: .touchUpInside) { [weak self] button in
+            guard let self = self else { return }
+            self.textView.resignFirstResponder()
+        }
+        btn.autoresizingMask = [.flexibleRightMargin]
+
+        textView.inputAccessoryView = aView
+        textView.textContainerInset = UIEdgeInsets(top: 15, left: 12, bottom: 15, right: 12)
+    }
+
     func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let data = data as? ITBookListItemData else { return }
         self.data = data
-        scrollView.zoomScale = 1.0
+
         imageView.setUrlImage(data.image, placeHolderImage: data.tempImage, backgroundColor: .black)
         data.tempImage = nil
 
@@ -105,6 +137,12 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         priceLabel.text = nil
         urlLabel.attributedText = nil
         descLabel.text = nil
+        textView.goneHeight = true
+        placeholderLabel.isHidden = true
+        saveButton.isHidden = true
+        self.delButton.isEnabled = false
+        delButton.isHidden = true
+        delButton.isEnabled = true
 
         if isDebuging, let requestData = self.detailData {
 
@@ -123,7 +161,16 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
             self.priceLabel.text = "price : \(requestData.price)"
             self.urlLabel.attributedText = requestData.url.underLine()
             self.descLabel.text = requestData.desc
-
+            self.textView.goneHeight = false
+            self.saveButton.isHidden = false
+            self.delButton.isHidden = false
+            if let text = UserDefault.memo[data.isbn13], text.isValid {
+                self.textView.text = text
+                self.delButton.isEnabled = true
+            }
+            else {
+                self.placeholderLabel.isHidden = false
+            }
         }
         else {
             indicatorView.startIndicatorView()
@@ -148,13 +195,27 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
                 self.priceLabel.text = "price : \(requestData.price)"
                 self.urlLabel.attributedText = requestData.url.underLine()
                 self.descLabel.text = requestData.desc
-
+                self.textView.goneHeight = false
+                self.saveButton.isHidden = false
+                self.delButton.isHidden = false
+                if let text = UserDefault.memo[data.isbn13], text.isValid {
+                    self.textView.text = text
+                    self.delButton.isEnabled = true
+                }
+                else {
+                    self.placeholderLabel.isHidden = false
+                }
                 self.indicatorView.stopIndicatorView()
             })
 
         }
         isDebuging = false
+    }
 
+
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
+        scrollView.contentInset = .zero
+        scrollView.contentOffset = .zero
     }
 
     func getImageWindowsRect() -> CGRect {
@@ -172,5 +233,64 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         }
         return responder as? UICollectionView
     }
+
+    func setContentInset(height: CGFloat, animationDuration: Double, animationCurveOption: UIView.AnimationCurve) {
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: height, right: 0)
+
+        if animationDuration > 0 {
+            UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0.0, options: UIView.AnimationOptions(rawValue: UInt(animationCurveOption.rawValue)), animations: {
+                if height == 0 {
+                    self.scrollView.contentOffset.y = self.scrollView.contentSize.height - self.scrollView.h
+                }
+                else {
+                    self.scrollView.contentOffset.y = self.scrollView.contentSize.height - height
+                }
+
+                self.layoutIfNeeded()
+            }) { finished in
+
+            }
+        }
+        else {
+            self.scrollView.contentOffset.y = self.scrollView.contentSize.height - height
+        }
+    }
+
+    @IBAction func onSaveButton(_ sender: UIButton) {
+        guard let data = self.detailData else { return }
+        textView.resignFirstResponder()
+        var dic = UserDefault.memo
+        dic[data.isbn13] = textView.text
+        UserDefault.memo = dic
+
+        alert(title: "Saved.")
+        saveButton.isEnabled = false
+        delButton.isEnabled = true
+    }
+    @IBAction func ondelButton(_ sender: UIButton) {
+        guard let data = self.detailData else { return }
+        textView.resignFirstResponder()
+        var dic = UserDefault.memo
+        dic[data.isbn13] = ""
+        UserDefault.memo = dic
+
+        alert(title: "Deleted.")
+        textView.text = nil
+        saveButton.isEnabled = false
+        delButton.isEnabled = false
+        placeholderLabel.isHidden = false
+    }
 }
 
+extension DetailCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if let text = textView.text, text.isValid {
+            placeholderLabel.isHidden = true
+            saveButton.isEnabled = true
+        }
+        else {
+            placeholderLabel.isHidden = false
+            saveButton.isEnabled = false
+        }
+    }
+}

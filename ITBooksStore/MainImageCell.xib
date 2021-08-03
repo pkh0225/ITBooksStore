@@ -44,6 +44,22 @@
                         <color key="textColor" systemColor="systemOrangeColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✏️" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bJ-Ho-IuK">
+                        <rect key="frame" x="245" y="275" width="30" height="30"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.19727891156462585" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="9rD-hV-DlG"/>
+                            <constraint firstAttribute="height" constant="30" id="xK9-LE-iYN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </label>
                 </subviews>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -60,10 +76,13 @@
                 <constraint firstAttribute="trailing" secondItem="6sS-fQ-7R2" secondAttribute="trailing" constant="15" id="gym-I3-TLI"/>
                 <constraint firstItem="A39-WK-B3P" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="lY3-jm-exc"/>
                 <constraint firstItem="6sS-fQ-7R2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="ll8-95-sxK"/>
+                <constraint firstItem="0bJ-Ho-IuK" firstAttribute="trailing" secondItem="A39-WK-B3P" secondAttribute="trailing" constant="-10" id="tn0-Wk-Y3c"/>
+                <constraint firstItem="0bJ-Ho-IuK" firstAttribute="bottom" secondItem="A39-WK-B3P" secondAttribute="bottom" constant="-10" id="zaY-cU-Ul8"/>
             </constraints>
             <size key="customSize" width="328" height="368"/>
             <connections>
                 <outlet property="imageView" destination="A39-WK-B3P" id="IZm-qS-Wtp"/>
+                <outlet property="memoLabel" destination="0bJ-Ho-IuK" id="sXs-1F-ifz"/>
                 <outlet property="priceLabel" destination="6sS-fQ-7R2" id="xwL-TN-lfI"/>
                 <outlet property="subtitleLabel" destination="zTi-1d-ERa" id="Xkz-aa-tDC"/>
                 <outlet property="titleLabel" destination="aqu-Sh-meY" id="efg-rx-Wcw"/>
