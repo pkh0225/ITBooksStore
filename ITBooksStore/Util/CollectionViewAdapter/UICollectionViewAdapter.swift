@@ -363,6 +363,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView.contentSize != .zero else { return }
 //        print("scrollView.contentOffset.x = \(scrollView.contentOffset.x)")
         guard let scrollView = scrollView as? UICollectionView else { return }
         self.didScrollCallback.forEach({ callback in

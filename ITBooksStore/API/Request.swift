@@ -24,17 +24,16 @@ struct Request {
         }
 
         if let data = Self.URLCache?.object(forKey: urlString as NSString) as? [String: Any] {
-            print("cache url: \(urlString)")
+//            print("cache url: \(urlString)")
             completion(data, nil)
             return nil
         }
 
         let urlComponent = URLComponents(string: urlString)
         guard let url = urlComponent?.url else {
-            assertionFailure("URL Failure")
             return nil
         }
-        print("request \(url)")
+//        print("request \(url)")
 
 
 

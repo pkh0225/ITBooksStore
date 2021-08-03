@@ -30,6 +30,8 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
 
+    @IBOutlet weak var countLabe: UILabel!
+
     lazy var indicatorView: IndicatorView = {
         let i = IndicatorView(superView: self)
         i.bringSubviewToFront(self)
@@ -94,7 +96,6 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         imageView.setUrlImage(data.image, placeHolderImage: data.tempImage, backgroundColor: .black)
         data.tempImage = nil
 
-
         titieLabel.text = nil
         subTitieLabel.text = nil
         authorsLabel.text = nil
@@ -132,7 +133,7 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
             urlTask = ITBookDetailData.request(isbn13: data.isbn13, completion: { [weak self] requestData in
                 guard let self = self else { return }
                 //            print(data)
-                print(requestData)
+//                print(requestData)
                 self.detailData = requestData
                 if data.image != requestData.image {
                     self.imageView.setUrlImage(data.image, backgroundColor: .black)
@@ -155,6 +156,8 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
 
         }
         isDebuging = false
+
+        countLabe.text = "\(indexPath.row)"
     }
 
     func getImageWindowsRect() -> CGRect {

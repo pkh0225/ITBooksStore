@@ -193,6 +193,7 @@ extension MainViewController: DetailViewControllerDelegate {
 
         self.collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredVertically, animated: false)
         self.collectionView.layoutIfNeeded()
+        self.collectionView.setNeedsDisplay()
 
         if index > self.dataList.count - 10 {
             if let query = self.searchBar.text {

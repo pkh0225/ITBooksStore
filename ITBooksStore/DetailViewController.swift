@@ -54,19 +54,20 @@ class DetailViewController: UIViewController, RouterProtocol {
             self.popAnimation(toViewController: toViewController, completion: completion)
         })
 
+        print("nowIndex: \(nowIndex)")
         makeAdapterData(dataList) { [weak self] adapterData in
             guard let self = self, let adapterData = adapterData else { return }
             self.collectionView.adapterData = adapterData
             self.collectionView.reloadData()
             self.collectionView.layoutIfNeeded()
             self.collectionView.scrollToItem(at: IndexPath(row: self.nowIndex, section: 0), at: .centeredHorizontally, animated: false)
+            self.collectionView.setNeedsDisplay()
         }
 
 
-        collectionView.didEndDeceleratingCallback { scrollView in
-//            guard scrollView.isTracking else { return }
-            let x: CGFloat = scrollView.contentOffset.x
-            let horizontalNowPage = Int( x / self.collectionView.frame.size.width)
+        collectionView.didScrollCallback { scrollView in
+            let x: CGFloat = scrollView.contentOffset.x + (self.collectionView.frame.size.width / 2)
+            let horizontalNowPage = Int(x  / self.collectionView.frame.size.width)
             guard self.nowIndex != horizontalNowPage else { return }
             self.nowIndex = horizontalNowPage
             self.delegate?.didChange(index: self.nowIndex)
