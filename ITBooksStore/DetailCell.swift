@@ -30,8 +30,6 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
 
-    @IBOutlet weak var countLabe: UILabel!
-
     lazy var indicatorView: IndicatorView = {
         let i = IndicatorView(superView: self)
         i.bringSubviewToFront(self)
@@ -157,7 +155,6 @@ class DetailCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         }
         isDebuging = false
 
-        countLabe.text = "\(indexPath.row)"
     }
 
     func getImageWindowsRect() -> CGRect {

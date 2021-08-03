@@ -18,7 +18,6 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var countLabe: UILabel!
 
     var actionClosure: ActionClosure? = nil
     var data: ITBookListItemData?
@@ -65,7 +64,6 @@ class MainImageCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
         priceLabel.text = "\(data.price)"
         imageView.setUrlImage(data.image, backgroundColor: .imageBackgroundColor)
 
-        countLabe.text = "\(indexPath.row)"
     }
 
     func getImageWindowsRect() -> CGRect {

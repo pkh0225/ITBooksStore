@@ -147,12 +147,6 @@
                                     <constraint firstAttribute="trailing" secondItem="4qp-Sl-DLf" secondAttribute="trailing" constant="15" id="zHY-lF-xhl"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7K0-Lb-GVu">
-                                <rect key="frame" x="132" y="467" width="36.5" height="84"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="70"/>
-                                <color key="textColor" systemColor="systemRedColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="XWW-oq-5JK" secondAttribute="bottom" id="275-3H-i2I"/>
@@ -168,16 +162,13 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="4wr-QR-dXx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="E69-6Z-8UI"/>
-                <constraint firstItem="7K0-Lb-GVu" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="EnQ-nj-7vk"/>
                 <constraint firstItem="4wr-QR-dXx" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="MaE-Ln-WWt"/>
-                <constraint firstItem="7K0-Lb-GVu" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="NVc-Ma-rCu"/>
                 <constraint firstAttribute="bottom" secondItem="4wr-QR-dXx" secondAttribute="bottom" id="shZ-5R-A4i"/>
                 <constraint firstAttribute="trailing" secondItem="4wr-QR-dXx" secondAttribute="trailing" id="vHP-vS-MRs"/>
             </constraints>
             <size key="customSize" width="300" height="1018"/>
             <connections>
                 <outlet property="authorsLabel" destination="Z8G-fX-2RC" id="JZY-0M-KEO"/>
-                <outlet property="countLabe" destination="7K0-Lb-GVu" id="JKN-dL-uuy"/>
                 <outlet property="descLabel" destination="gMR-1a-kth" id="d5X-8b-ecv"/>
                 <outlet property="imageView" destination="4qp-Sl-DLf" id="sHl-JC-dic"/>
                 <outlet property="languageLabel" destination="rxo-bs-EtT" id="fW9-xd-5wN"/>
@@ -197,9 +188,6 @@
     <resources>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

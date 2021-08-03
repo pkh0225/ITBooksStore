@@ -44,17 +44,10 @@
                         <color key="textColor" systemColor="systemOrangeColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgQ-7z-dGa">
-                        <rect key="frame" x="133" y="179" width="34" height="84"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="70"/>
-                        <color key="textColor" systemColor="systemRedColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vgQ-7z-dGa" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="CD8-ML-QZH"/>
                 <constraint firstItem="aqu-Sh-meY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="CI6-GB-2Wc"/>
                 <constraint firstItem="A39-WK-B3P" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="LNn-zC-JG9"/>
                 <constraint firstAttribute="trailing" secondItem="aqu-Sh-meY" secondAttribute="trailing" constant="15" id="RAm-ON-WYK"/>
@@ -62,7 +55,6 @@
                 <constraint firstItem="aqu-Sh-meY" firstAttribute="top" secondItem="A39-WK-B3P" secondAttribute="bottom" id="T2J-MW-qJW"/>
                 <constraint firstItem="6sS-fQ-7R2" firstAttribute="top" secondItem="zTi-1d-ERa" secondAttribute="bottom" constant="5" id="UO5-Ta-NPJ"/>
                 <constraint firstItem="zTi-1d-ERa" firstAttribute="top" secondItem="aqu-Sh-meY" secondAttribute="bottom" constant="5" id="UvR-o9-88w"/>
-                <constraint firstItem="vgQ-7z-dGa" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Xph-BL-aAE"/>
                 <constraint firstAttribute="trailing" secondItem="zTi-1d-ERa" secondAttribute="trailing" constant="15" id="apF-hu-mfG"/>
                 <constraint firstItem="zTi-1d-ERa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="g4k-Pr-BH1"/>
                 <constraint firstAttribute="trailing" secondItem="6sS-fQ-7R2" secondAttribute="trailing" constant="15" id="gym-I3-TLI"/>
@@ -71,7 +63,6 @@
             </constraints>
             <size key="customSize" width="328" height="368"/>
             <connections>
-                <outlet property="countLabe" destination="vgQ-7z-dGa" id="Xl3-q9-aT2"/>
                 <outlet property="imageView" destination="A39-WK-B3P" id="IZm-qS-Wtp"/>
                 <outlet property="priceLabel" destination="6sS-fQ-7R2" id="xwL-TN-lfI"/>
                 <outlet property="subtitleLabel" destination="zTi-1d-ERa" id="Xkz-aa-tDC"/>
@@ -83,9 +74,6 @@
     <resources>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
