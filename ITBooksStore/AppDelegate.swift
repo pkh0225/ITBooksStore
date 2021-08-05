@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        UIImageView.diskCacheClear()
+        UIImageView.checkDiskCacheAndRemove(totalCostLimit: 200)
 
         return true
     }

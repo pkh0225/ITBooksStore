@@ -56,6 +56,83 @@ extension UIImageView {
         }
     }
 
+    func setUrlImage(_ urlString: String?, placeHolderImage: UIImage? = nil, backgroundColor: UIColor? = nil, transitionAnimation: Bool = true, cache: Bool = true, isEtage: Bool = true) {
+        imageDataTask?.cancel()
+        guard let urlString = urlString, urlString.isValid, let url = URL(string: urlString) else {
+            self.image =  placeHolderImage
+            self.backgroundColor = backgroundColor
+            return
+        }
+
+        if cache, !isEtage {
+            getCacheImage(urlString: urlString) { cacheType in
+                if cacheType == .none {
+                    gcd_main_safe {
+                        self.setUrlImage(urlString, placeHolderImage: placeHolderImage, backgroundColor: backgroundColor, transitionAnimation: transitionAnimation, cache: false, isEtage: false)
+                    }
+                }
+            }
+        }
+        else {
+            self.image =  placeHolderImage
+            self.backgroundColor = backgroundColor
+
+            var urlRequest = URLRequest(url: url)
+            if isEtage, let eTag = UserDefaults.standard.object(forKey: "Etag_\(urlString)") as? String {
+                urlRequest.addValue(eTag, forHTTPHeaderField: "If-None-Match")
+            }
+
+            self.imageDataTask = URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, response, error) in
+                guard let self = self else { return }
+                self.imageDataTask = nil
+
+                if let _ = error {
+                    //                print("iamge download error: " + error.localizedDescription + "\n")
+                    return
+                }
+                else if let response = response as? HTTPURLResponse {
+                    // 변경되지 않음
+                    if response.statusCode == 304 {
+//                        print("not change")
+                        self.getCacheImage(urlString: urlString) { cacheType in
+                            if cacheType == .none {
+                                gcd_main_safe {
+//                                    print("not cache retry")
+                                    self.setUrlImage(urlString, placeHolderImage: placeHolderImage, backgroundColor: backgroundColor, transitionAnimation: transitionAnimation, cache: false, isEtage: false)
+                                }
+                            }
+                        }
+                    }
+                    else if response.statusCode == 200, let data = data, let image = UIImage(data: data) {
+                        gcd_main_safe {
+                            if transitionAnimation {
+                                UIView.transition(with: self, duration: 0.25, options: [.transitionCrossDissolve], animations: {
+                                    self.image = image
+                                    self.backgroundColor = .none
+                                }, completion: nil)
+                            }
+                            else {
+                                self.image = image
+                                self.backgroundColor = .none
+                            }
+                        }
+
+                        if let etag = response.allHeaderFields["Etag"] as? String {
+                            UserDefaults.standard.setValue(etag, forKey: "Etag_\(urlString)")
+                        }
+                        self.saveCacheImage(urlString: urlString, image: image)
+                    }
+                    else {
+                        print("response.statusCode: \(response.statusCode)")
+                    }
+                }
+            }
+
+            self.imageDataTask?.resume()
+        }
+    }
+
+
     func getMemoryCache(urlString: String?) -> UIImage? {
         guard let urlString = urlString, urlString.isValid else { return  nil }
         return Self.UrlToImageCache?.object(forKey: urlString as NSString)
@@ -140,7 +217,7 @@ extension UIImageView {
 
     func getCacheImage(urlString: String, completion: @escaping (CacheType) -> Void) {
         if let image = self.getMemoryCache(urlString: urlString) {
-            print("image memory Cache: \(urlString)")
+//            print("image memory Cache: \(urlString)")
             gcd_main_safe {
                 self.image = image
                 self.backgroundColor = .none
@@ -152,7 +229,7 @@ extension UIImageView {
                 let result = self.getDiskCache(urlString: urlString)
                 switch result {
                 case .success(let image):
-                    print("image disk Cache: \(urlString)")
+//                    print("image disk Cache: \(urlString)")
                     gcd_main_safe {
                         self.image = image
                         self.backgroundColor = .none
@@ -175,80 +252,55 @@ extension UIImageView {
         }
     }
 
-    func setUrlImage(_ urlString: String?, placeHolderImage: UIImage? = nil, backgroundColor: UIColor? = nil, transitionAnimation: Bool = true, cache: Bool = true, isEtage: Bool = true) {
-        imageDataTask?.cancel()
-        guard let urlString = urlString, urlString.isValid, let url = URL(string: urlString) else {
-            self.image =  placeHolderImage
-            self.backgroundColor = backgroundColor
-            return
-        }
+    static func getImageCacheCapacityAsMB() -> Int64 {
+        guard var cacheUrlString = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return 0 }
+        cacheUrlString += "/image"
+        var folderSize = 0
+        if FileManager.default.fileExists(atPath: cacheUrlString) {
+            do {
+                let attribute = try FileManager.default.attributesOfItem(atPath: cacheUrlString)
+                folderSize += attribute[FileAttributeKey.size] as! Int
+                let filelist = try FileManager.default.contentsOfDirectory(atPath: cacheUrlString)
+                filelist.forEach { file in
+                    let tmp = cacheUrlString.appending("/\(file)")
+                    do {
+                        let attribute = try FileManager.default.attributesOfItem(atPath: tmp)
+                        folderSize += attribute[FileAttributeKey.size] as! Int
 
-        if cache, !isEtage {
-            getCacheImage(urlString: urlString) { cacheType in
-                if cacheType == .none {
-                    gcd_main_safe {
-                        self.setUrlImage(urlString, placeHolderImage: placeHolderImage, backgroundColor: backgroundColor, transitionAnimation: transitionAnimation, cache: false, isEtage: false)
                     }
+                    catch let error as NSError {
+                        print("\(#function) error: \(error)")
+
+                    }
+
                 }
+
             }
-        }
-        else {
-            self.image =  placeHolderImage
-            self.backgroundColor = backgroundColor
+            catch let error as NSError {
+                print("\(#function) error: \(error)")
 
-            var urlRequest = URLRequest(url: url)
-            if isEtage, let eTag = UserDefaults.standard.object(forKey: "Etag_\(urlString)") as? String {
-                urlRequest.addValue(eTag, forHTTPHeaderField: "If-None-Match")
-            }
-
-            self.imageDataTask = URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, response, error) in
-                guard let self = self else { return }
-                self.imageDataTask = nil
-
-                if let _ = error {
-                    //                print("iamge download error: " + error.localizedDescription + "\n")
-                    return
-                }
-                else if let response = response as? HTTPURLResponse {
-                    // 변경되지 않음
-                    if response.statusCode == 304 {
-                        print("not change")
-                        self.getCacheImage(urlString: urlString) { cacheType in
-                            if cacheType == .none {
-                                gcd_main_safe {
-                                    print("not cache retry")
-                                    self.setUrlImage(urlString, placeHolderImage: placeHolderImage, backgroundColor: backgroundColor, transitionAnimation: transitionAnimation, cache: false, isEtage: false)
-                                }
-                            }
-                        }
-                    }
-                    else if response.statusCode == 200, let data = data, let image = UIImage(data: data) {
-                        gcd_main_safe {
-                            if transitionAnimation {
-                                UIView.transition(with: self, duration: 0.25, options: [.transitionCrossDissolve], animations: {
-                                    self.image = image
-                                    self.backgroundColor = .none
-                                }, completion: nil)
-                            }
-                            else {
-                                self.image = image
-                                self.backgroundColor = .none
-                            }
-                        }
-
-                        if let etag = response.allHeaderFields["Etag"] as? String {
-                            UserDefaults.standard.setValue(etag, forKey: "Etag_\(urlString)")
-                        }
-                        self.saveCacheImage(urlString: urlString, image: image)
-                    }
-                    else {
-                        print("response.statusCode: \(response.statusCode)")
-                    }
-                }
             }
 
-            self.imageDataTask?.resume()
         }
+        let byteCountFormatter = ByteCountFormatter()
+        byteCountFormatter.allowedUnits = .useMB
+        byteCountFormatter.countStyle = .file
+
+        let folderSizeToDisplay = byteCountFormatter.string(fromByteCount: Int64(folderSize))
+        print( folderSize == 0 ? "Image Cache 0 MB" : "Image Cache \(folderSizeToDisplay)" )
+
+        return Int64(folderSize)
+    }
+
+
+    /// 제한 용량 MB 로 제한
+    @discardableResult
+    static func checkDiskCacheAndRemove(totalCostLimit: Int64) -> Bool {
+        if getImageCacheCapacityAsMB() > totalCostLimit {
+            diskCacheClear()
+            return true
+        }
+        return false
     }
 
 }
