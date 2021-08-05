@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class Request {
-    private static var accessQueue: DispatchQueue? = DispatchQueue(label: "accessQueue_Request", qos: .userInitiated, attributes: .concurrent)
     private static var URLCache: NSCache<NSString, AnyObject>?
 
     @discardableResult
@@ -23,7 +22,7 @@ class Request {
             urlString += "/\(pageIndex)"
         }
 
-        if let data = Self.URLCache?.object(forKey: urlString as NSString) as? [String: Any] {
+        if let data = getMemoryCaach(urlString: urlString) {
 //            print("cache url: \(urlString)")
             completion(data, nil)
             return nil
