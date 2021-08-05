@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-struct Request {
+class Request {
+    private static var accessQueue: DispatchQueue? = DispatchQueue(label: "accessQueue_Request", qos: .userInitiated, attributes: .concurrent)
     private static var URLCache: NSCache<NSString, AnyObject>?
 
-
     @discardableResult
-    static func request(url: String, query: String = "", pageIndex: Int = -1, completion: @escaping ([String:Any]?, Error?) -> Void) -> URLSessionDataTask? {
-        guard url.isValid else { return  nil }
-        var urlString = url
+    static func request(urlString: String, query: String = "", pageIndex: Int = -1, cache: Bool = true, completion: @escaping ([String:Any]?, Error?) -> Void) -> URLSessionDataTask? {
+        guard urlString.isValid else { return  nil }
+        var urlString = urlString
         if query.isValid {
             urlString += "/\(query)"
         }
@@ -35,41 +35,61 @@ struct Request {
         }
 //        print("request \(url)")
 
-
-
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.timeoutInterval = TimeInterval(10)
 
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard let data = data, error == nil else {
-                completion(nil, error)
+
+            if let _ = error {
+//                print("iamge download error: " + error.localizedDescription + "\n")
                 return
             }
+            else if let response = response as? HTTPURLResponse {
+                if response.statusCode == 200, let data = data, let json = try? JSONSerialization.jsonObject(with: data) {
 
-            if let json = try? JSONSerialization.jsonObject(with: data) {
-                var dic = [String: Any]()
-                if let jsonArray = json as? [[String: Any]] {
-//                    print("json is array", jsonArray)
-                    dic = ["dataList": jsonArray]
-                }
-                else if let jsonDictionary  = json as? [String: Any] {
-//                    print("json is jsonDictionary ", jsonDictionary)
-                    dic = jsonDictionary
-                }
+                    var dic = [String: Any]()
+                    if let jsonArray = json as? [[String: Any]] {
+                        //                    print("json is array", jsonArray)
+                        dic = ["dataList": jsonArray]
+                    }
+                    else if let jsonDictionary  = json as? [String: Any] {
+                        //                    print("json is jsonDictionary ", jsonDictionary)
+                        dic = jsonDictionary
+                    }
 
-                if Self.URLCache == nil {
-                    Self.URLCache = NSCache<NSString, AnyObject>()
-                    Self.URLCache?.countLimit = 100
-                }
-                Self.URLCache?.setObject(dic as AnyObject, forKey: urlString as NSString)
-                completion(dic, error)
+                    completion(dic, error)
 
+                    self.saveMemoryCache(urlString: urlString, dic: dic)
+                }
+                else {
+                    print("response.statusCode: \(response.statusCode)")
+                }
             }
 
         }
         task.resume()
         return task
+    }
+
+    static func getMemoryCaach(urlString: String?) -> [String: Any]? {
+        guard let urlString = urlString, urlString.isValid else { return  nil }
+        return Self.URLCache?.object(forKey: urlString as NSString) as? [String: Any]
+    }
+
+    static func saveMemoryCache(urlString: String?, dic: [String: Any]?) {
+        guard let urlString = urlString, let dic = dic else { return }
+        if Self.URLCache == nil {
+            Self.URLCache = NSCache<NSString, AnyObject>()
+            Self.URLCache?.countLimit = 100
+            Self.URLCache?.totalCostLimit = 50 * 1024 * 1024;
+        }
+        if Self.URLCache?.object(forKey: urlString as NSString) == nil {
+            Self.URLCache?.setObject(dic as AnyObject, forKey: urlString as NSString)
+        }
+    }
+
+    static func momoryCacheClear() {
+        Self.URLCache?.removeAllObjects()
     }
 }
 
@@ -82,7 +102,7 @@ class ITBookListData: PKHParser {
     var books = [ITBookListItemData]()
 
     static func requestSearchData(query: String, pageIndex: Int, completion: @escaping (Self) -> Void) -> URLSessionDataTask? {
-        return Request.request(url: Self.API_SEARCH_URL, query: query, pageIndex: pageIndex) { requestData, error in
+        return Request.request(urlString: Self.API_SEARCH_URL, query: query, pageIndex: pageIndex) { requestData, error in
             guard let requestData = requestData else { return }
             Self.initAsync(map: requestData, completionHandler: { (obj: Self) in
                 completion(obj)
@@ -123,7 +143,7 @@ class ITBookDetailData: PKHParser {
     var url: String = ""
 
     static func request(isbn13: String, completion: @escaping (Self) -> Void) -> URLSessionDataTask? {
-        return Request.request(url: "\(Self.API_BOOK_DETAIL_URL)/\(isbn13)") { requestData, error in
+        return Request.request(urlString: "\(Self.API_BOOK_DETAIL_URL)/\(isbn13)") { requestData, error in
             guard let requestData = requestData else { return }
             Self.initAsync(map: requestData, completionHandler: { (obj: Self) in
                 completion(obj)
