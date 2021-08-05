@@ -58,6 +58,7 @@ extension UIImageView {
 
     func setUrlImage(_ urlString: String?, placeHolderImage: UIImage? = nil, backgroundColor: UIColor? = nil, transitionAnimation: Bool = true, cache: Bool = true, isEtage: Bool = true) {
         imageDataTask?.cancel()
+        imageDataTask = nil
         guard let urlString = urlString, urlString.isValid, let url = URL(string: urlString) else {
             self.image =  placeHolderImage
             self.backgroundColor = backgroundColor
@@ -233,7 +234,7 @@ extension UIImageView {
             return completion(.memory)
         }
         else {
-            Self.accessQueue?.async(flags: .barrier) {
+            Self.accessQueue?.sync() {
                 let result = self.getDiskCache(urlString: urlString)
                 switch result {
                 case .success(let image):
