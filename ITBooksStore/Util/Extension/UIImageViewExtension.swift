@@ -155,12 +155,20 @@ extension UIImageView {
     }
 
     func getFileName(urlString: String?) -> String? {
-        guard let urlString = urlString, let url = URL(string: urlString) else { return nil }
+        guard let urlString = urlString, let urlComponents = URLComponents(string: urlString) else { return nil }
+        guard let url = urlComponents.url else { return nil }
         var fileName: String = ""
         for (idx,path) in url.pathComponents.enumerated() {
             guard idx > 0 else { continue }
             fileName += "_\(path)"
         }
+
+        if let queryItems = urlComponents.queryItems {
+            for item in queryItems {
+                fileName += "_\(item)"
+            }
+        }
+
         return fileName
     }
 
