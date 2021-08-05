@@ -289,7 +289,7 @@ extension UIImageView {
         let folderSizeToDisplay = byteCountFormatter.string(fromByteCount: Int64(folderSize))
         print( folderSize == 0 ? "Image Cache 0 MB" : "Image Cache \(folderSizeToDisplay)" )
 
-        return Int64(folderSize)
+        return Int64(folderSize) / 1000000
     }
 
 

@@ -106,7 +106,7 @@
                                 <cells/>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pOC-SY-Lqo">
-                                <rect key="frame" x="364" y="44" width="50" height="50"/>
+                                <rect key="frame" x="354" y="54" width="50" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Fjr-nX-mRW"/>
@@ -129,12 +129,12 @@
                         <viewLayoutGuide key="safeArea" id="NPJ-FG-IVa"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="NPJ-FG-IVa" firstAttribute="trailing" secondItem="pOC-SY-Lqo" secondAttribute="trailing" id="21k-uP-ijm"/>
+                            <constraint firstItem="NPJ-FG-IVa" firstAttribute="trailing" secondItem="pOC-SY-Lqo" secondAttribute="trailing" constant="10" id="21k-uP-ijm"/>
                             <constraint firstItem="Rhm-2p-GDF" firstAttribute="leading" secondItem="NPJ-FG-IVa" secondAttribute="leading" id="48f-30-MaH"/>
                             <constraint firstItem="NPJ-FG-IVa" firstAttribute="trailing" secondItem="Rhm-2p-GDF" secondAttribute="trailing" constant="-20" id="LqI-hB-lgM"/>
                             <constraint firstItem="Rhm-2p-GDF" firstAttribute="top" secondItem="NPJ-FG-IVa" secondAttribute="top" id="Wqd-bu-mwn"/>
                             <constraint firstItem="NPJ-FG-IVa" firstAttribute="bottom" secondItem="Rhm-2p-GDF" secondAttribute="bottom" id="by1-1n-RPT"/>
-                            <constraint firstItem="pOC-SY-Lqo" firstAttribute="top" secondItem="NPJ-FG-IVa" secondAttribute="top" id="noU-ad-fZw"/>
+                            <constraint firstItem="pOC-SY-Lqo" firstAttribute="top" secondItem="NPJ-FG-IVa" secondAttribute="top" constant="10" id="noU-ad-fZw"/>
                         </constraints>
                     </view>
                     <connections>

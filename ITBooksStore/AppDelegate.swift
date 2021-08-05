@@ -14,6 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UIImageView.checkDiskCacheAndRemove(totalCostLimit: 200)
+        NotificationCenter.default.addObserver(forName:UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { (_) in
+            UIImageView.checkDiskCacheAndRemove(totalCostLimit: 200)
+        }
+        NotificationCenter.default.addObserver(forName:UIApplication.willTerminateNotification, object: nil, queue: nil) { (_) in
+            UIImageView.checkDiskCacheAndRemove(totalCostLimit: 200)
+        }
 
         return true
     }
