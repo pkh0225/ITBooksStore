@@ -121,7 +121,7 @@ class DetailViewController: UIViewController, RouterProtocol {
 
     func addData(_ addList: [ITBookListItemData]) {
         dataList.append(contentsOf: addList)
-        makeAdapterData(dataList) { [weak self] adapterData in
+        makeAdapterData(addList) { [weak self] adapterData in
             guard let self = self, let adapterData = adapterData, let cells = adapterData.sectionList[safe: 0]?.cells else { return }
             self.collectionView.adapterData?.sectionList[safe: 0]?.cells.append(contentsOf: cells)
             let end: Int = self.collectionView.adapterData?.sectionList[safe: 0]?.cells.count ?? 0
