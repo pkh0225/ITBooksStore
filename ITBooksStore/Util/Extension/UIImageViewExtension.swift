@@ -59,11 +59,10 @@ extension UIImageView {
     func setUrlImage(_ urlString: String?, placeHolderImage: UIImage? = nil, backgroundColor: UIColor? = nil, transitionAnimation: Bool = true, cache: Bool = true, isEtage: Bool = true) {
         imageDataTask?.cancel()
         imageDataTask = nil
-        guard let urlString = urlString, urlString.isValid, let url = URL(string: urlString) else {
-            self.image =  placeHolderImage
-            self.backgroundColor = backgroundColor
-            return
-        }
+        self.image =  placeHolderImage
+        self.backgroundColor = backgroundColor
+
+        guard let urlString = urlString, urlString.isValid, let url = URL(string: urlString) else { return }
 
         if cache, !isEtage {
             getCacheImage(urlString: urlString) { cacheType in
@@ -75,9 +74,6 @@ extension UIImageView {
             }
         }
         else {
-            self.image =  placeHolderImage
-            self.backgroundColor = backgroundColor
-
             var urlRequest = URLRequest(url: url)
             if isEtage, let eTag = UserDefaults.standard.object(forKey: "Etag_\(urlString)") as? String {
                 urlRequest.addValue(eTag, forHTTPHeaderField: "If-None-Match")
