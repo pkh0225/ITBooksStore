@@ -21,7 +21,6 @@ func gcd_main_safe(_ block: @escaping () -> Void) {
 extension UIImageView {
     private struct AssociatedKeys {
         static var imageDataTask: UInt8 = 0
-        static var url: UInt8 = 0
         static var accessQueue: UInt = 0
     }
 
@@ -34,16 +33,16 @@ extension UIImageView {
     private static var UrlToImageCache: NSCache<NSString, UIImage>?
     private static var accessQueue: DispatchQueue? {
         get {
-            if let q = objc_getAssociatedObject(self, &AssociatedKeys.imageDataTask) as? DispatchQueue {
+            if let q = objc_getAssociatedObject(self, &AssociatedKeys.accessQueue) as? DispatchQueue {
                 return q
             }
             let queue =  DispatchQueue(label: "accessQueue_UIImageView", qos: .userInitiated, attributes: .concurrent)
-            objc_setAssociatedObject(self, &AssociatedKeys.url, queue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.accessQueue, queue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return queue
 
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.url, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.accessQueue, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
